@@ -19,7 +19,7 @@ def execute_commands():
             # Add a delay to simulate time taken for each operation
             root.after(1000)
 
-
+##### Addded new row
 # Function to add a new row to the table
 def add_row():
     wavelength = wavelength_entry.get()
