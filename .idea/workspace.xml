@@ -3,8 +3,29 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="Cadence.History.Table.Properties">
+    <option name="COLUMN_ID_VISIBILITY">
+      <map>
+        <entry key="Author" value="true" />
+        <entry key="Description" value="true" />
+        <entry key="Duration" value="true" />
+        <entry key="Id" value="true" />
+        <entry key="Name" value="true" />
+        <entry key="Resources" value="true" />
+        <entry key="Start Time" value="true" />
+        <entry key="Status" value="true" />
+      </map>
+    </option>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="da31b6f3-3f52-4efd-9bf2-4d2b2a787252" name="Changes" comment="First Initial Version" />
+    <list default="true" id="da31b6f3-3f52-4efd-9bf2-4d2b2a787252" name="Changes" comment="First Initial Version">
+      <change afterPath="$PROJECT_DIR$/AutomationTestGoldenEye.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ImageReaderNotebook.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test-com.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/LaserSnap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/LaserSnap.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LaseSnap.py" beforeDir="false" afterPath="$PROJECT_DIR$/LaseSnap.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,56 +35,59 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "assignee": "Nard248"
+      &quot;assignee&quot;: &quot;Nard248&quot;
     }
   ],
-  "lastFilter": {
-    "assignee": "Nard248"
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;Nard248&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Nard248/LaserSnap.git",
-    "accountId": "88776bba-6abb-4788-b0f9-348d3dddab66"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nard248/LaserSnap.git&quot;,
+    &quot;accountId&quot;: &quot;5ec54eb2-4707-4212-b2fe-0381f8639a94&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2kedHWMOdKWj1bMhfXBmV59SImO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.LaseSnap.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.LaseSnap.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/meloy/PycharmProjects/LaserSnap&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.18034.82" />
-        <option value="bundled-python-sdk-975db3bf15a3-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.18034.82" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-PY-242.20224.347" />
+        <option value="bundled-python-sdk-c2d6afa66fbe-39cff9de6eef-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.20224.347" />
       </set>
     </attachedChunks>
   </component>
@@ -76,6 +100,28 @@
       <option name="presentableId" value="Default" />
       <updated>1723647888855</updated>
       <workItem from="1723647890165" duration="327000" />
+      <workItem from="1724138091970" duration="45000" />
+      <workItem from="1724138143238" duration="218000" />
+      <workItem from="1724138370100" duration="31000" />
+      <workItem from="1724138409193" duration="1897000" />
+      <workItem from="1724334640335" duration="391000" />
+      <workItem from="1724414574865" duration="750000" />
+      <workItem from="1724418546023" duration="781000" />
+      <workItem from="1724598745405" duration="31000" />
+      <workItem from="1724614551220" duration="627000" />
+      <workItem from="1724656582939" duration="4615000" />
+      <workItem from="1724942275682" duration="21000" />
+      <workItem from="1726140699181" duration="650000" />
+      <workItem from="1726645426026" duration="5897000" />
+      <workItem from="1726736822993" duration="40000" />
+      <workItem from="1727421392698" duration="1988000" />
+      <workItem from="1728827354507" duration="916000" />
+      <workItem from="1728834751458" duration="603000" />
+      <workItem from="1728893172716" duration="594000" />
+      <workItem from="1728908060919" duration="1793000" />
+      <workItem from="1728934694611" duration="1147000" />
+      <workItem from="1728984482432" duration="5271000" />
+      <workItem from="1728996321430" duration="2698000" />
     </task>
     <task id="LOCAL-00001" summary="First Initial Version">
       <option name="closed" value="true" />
@@ -96,6 +142,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="First Initial Version" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/LaserSnap$LaseSnap.coverage" NAME="LaseSnap Coverage Results" MODIFIED="1723647917505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LaserSnap$LaseSnap.coverage" NAME="LaseSnap Coverage Results" MODIFIED="1728999832801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
