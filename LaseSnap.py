@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+
 import pyvisa
 import serial.tools.list_ports
 import os
@@ -18,8 +19,10 @@ experiment_finished = False
 project_name = ""
 output_path = ""
 saved_images_directory = r'C:\BaySpec\GoldenEye\saved_images'
+
 selected_images = []
 loaded_cubes = []
+available_wavelengths = set()  # To store unique wavelengths
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -312,15 +315,119 @@ def toggle_image_selection(index, var):
 
 
 # Function to load cubes and display images
+# def load_and_display_cubes(folder_path):
+#     # Clear previous images
+#     for widget in image_panel_frame.winfo_children():
+#         widget.destroy()
+#
+#     # Clear previous cubes, selections, and wavelengths
+#     loaded_cubes.clear()
+#     selected_images.clear()
+#     sum_cubes_button.config(state="disabled")
+#     available_wavelengths.clear()
+#
+#     subfolders = [f.path for f in os.scandir(folder_path) if f.is_dir()]
+#     total_subfolders = len(subfolders)
+#
+#     if total_subfolders == 0:
+#         logging.warning("No subfolders found in the selected folder.")
+#         progress_label.config(text="Loaded 0 of 0 subfolders")
+#         return
+#
+#     logging.info(f"Found {total_subfolders} subfolders.")
+#
+#     loaded_folders = 0  # Track the number of folders processed
+#
+#     # Loop through each subfolder and process the hyperspectral images
+#     for subfolder in subfolders:
+#         folder_name = os.path.basename(subfolder)
+#         parts = folder_name.split('_')
+#
+#         if len(parts) >= 3:
+#             wavelength = parts[2]  # Extract wavelength from the folder name
+#             i = parts[3] if len(parts) > 3 else "1"  # Extract i or default to 1
+#
+#             hdr_path = os.path.join(subfolder, 'spectral_image_processed_image.hdr')
+#             bin_path = os.path.join(subfolder, 'spectral_image_processed_image.bin')
+#
+#             if os.path.exists(hdr_path) and os.path.exists(bin_path):
+#                 logging.info(f"Loading hyperspectral cube from: {hdr_path} and {bin_path}")
+#                 try:
+#                     # Load the cube using spectral.io.envi
+#                     meta_cube = envi.open(hdr_path, bin_path)
+#                     cube = meta_cube.load()
+#
+#                     # Store the cube data and metadata for later use
+#                     loaded_cubes.append((cube, meta_cube.metadata, wavelength, i))
+#                     available_wavelengths.add(wavelength)  # Track unique wavelengths
+#
+#                     # Define the RGB bands
+#                     rgb_bands = (29, 19, 9)  # Adjust these bands as needed
+#
+#                     # Save the RGB image
+#                     output_rgb_image = os.path.join(subfolder, 'rgb_image.png')
+#                     spy.save_rgb(output_rgb_image, cube, rgb_bands)
+#                     logging.info(f"RGB image saved at: {output_rgb_image}")
+#
+#                     # Display the image
+#                     img = Image.open(output_rgb_image)
+#                     img = img.resize((300, 200), Image.Resampling.LANCZOS)
+#                     img_tk = ImageTk.PhotoImage(img)
+#
+#                     # Store the image to prevent garbage collection
+#                     loaded_images.append(img_tk)
+#
+#                     # Create a frame for each image, its label, and checkbox
+#                     image_frame = tk.Frame(image_panel_frame)
+#                     image_frame.pack(side=tk.LEFT, padx=10, pady=10)
+#
+#                     # Display the image in the frame
+#                     img_label = tk.Label(image_frame, image=img_tk)
+#                     img_label.pack()
+#
+#                     # Create a variable to track the checkbox state
+#                     checkbox_var = tk.BooleanVar()
+#
+#                     # Create a checkbox next to the image name and make it selectable
+#                     checkbox = tk.Checkbutton(image_frame, text=f'{wavelength}_{i}', variable=checkbox_var,
+#                                               onvalue=True, offvalue=False,
+#                                               command=lambda idx=len(loaded_cubes) - 1,
+#                                                              var=checkbox_var: toggle_image_selection(idx, var))
+#                     checkbox.pack(pady=5)
+#
+#                     # Update the progress after each subfolder is processed
+#                     loaded_folders += 1
+#                     progress_label.config(text=f"Loaded {loaded_folders} of {total_subfolders} subfolders")
+#                     root.update_idletasks()
+#
+#                 except Exception as e:
+#                     logging.error(f"Error loading or processing cube: {e}")
+#             else:
+#                 logging.warning(f"Hyperspectral files not found in {subfolder}")
+#
+#     # Final update to the progress label in case all subfolders were processed
+#     progress_label.config(text=f"Loaded {loaded_folders} of {total_subfolders} subfolders")
+#
+#     # Update the wavelength filter dropdown with the available wavelengths
+#     update_wavelength_filter()
+
+
+# Function to update the wavelength filter dropdown
+def update_wavelength_filter():
+    wavelength_filter['values'] = ['No Filter'] + list(available_wavelengths)
+    wavelength_filter.set('No Filter')  # Set default to 'No Filter'
+
+
 def load_and_display_cubes(folder_path):
     # Clear previous images
     for widget in image_panel_frame.winfo_children():
         widget.destroy()
 
-    # Clear previous cubes and selections
+    # Clear previous cubes, selections, and wavelengths
     loaded_cubes.clear()
     selected_images.clear()
     sum_cubes_button.config(state="disabled")
+    available_wavelengths.clear()
 
     subfolders = [f.path for f in os.scandir(folder_path) if f.is_dir()]
     total_subfolders = len(subfolders)
@@ -353,9 +460,6 @@ def load_and_display_cubes(folder_path):
                     meta_cube = envi.open(hdr_path, bin_path)
                     cube = meta_cube.load()
 
-                    # Store the cube data and metadata for later use
-                    loaded_cubes.append((cube, meta_cube.metadata, wavelength, i))
-
                     # Define the RGB bands
                     rgb_bands = (29, 19, 9)  # Adjust these bands as needed
 
@@ -363,6 +467,10 @@ def load_and_display_cubes(folder_path):
                     output_rgb_image = os.path.join(subfolder, 'rgb_image.png')
                     spy.save_rgb(output_rgb_image, cube, rgb_bands)
                     logging.info(f"RGB image saved at: {output_rgb_image}")
+
+                    # Store the cube data and metadata, along with the path to the RGB image
+                    loaded_cubes.append((cube, meta_cube.metadata, wavelength, i, output_rgb_image))
+                    available_wavelengths.add(wavelength)  # Track unique wavelengths
 
                     # Display the image
                     img = Image.open(output_rgb_image)
@@ -403,6 +511,79 @@ def load_and_display_cubes(folder_path):
     # Final update to the progress label in case all subfolders were processed
     progress_label.config(text=f"Loaded {loaded_folders} of {total_subfolders} subfolders")
 
+    # Update the wavelength filter dropdown with the available wavelengths
+    update_wavelength_filter()
+
+
+# Function to filter the displayed images by wavelength
+def filter_images():
+    selected_wavelength = wavelength_filter.get()
+
+    # If 'No Filter' is selected, display all images
+    if selected_wavelength == 'No Filter':
+        # Clear the current image panel
+        for widget in image_panel_frame.winfo_children():
+            widget.destroy()
+
+        # Display all loaded images
+        for idx, (cube, _, wavelength, i, output_rgb_image) in enumerate(loaded_cubes):
+            if os.path.exists(output_rgb_image):
+                img = Image.open(output_rgb_image)
+                img = img.resize((300, 200), Image.Resampling.LANCZOS)
+                img_tk = ImageTk.PhotoImage(img)
+
+                # Store the image to prevent garbage collection
+                loaded_images.append(img_tk)
+
+                # Create a frame for each image, its label, and checkbox
+                image_frame = tk.Frame(image_panel_frame)
+                image_frame.pack(side=tk.LEFT, padx=10, pady=10)
+
+                # Display the image in the frame
+                img_label = tk.Label(image_frame, image=img_tk)
+                img_label.pack()
+
+                # Create a variable to track the checkbox state
+                checkbox_var = tk.BooleanVar()
+
+                # Create a checkbox next to the image name and make it selectable
+                checkbox = tk.Checkbutton(image_frame, text=f'{wavelength}_{i}', variable=checkbox_var,
+                                          onvalue=True, offvalue=False,
+                                          command=lambda idx=idx, var=checkbox_var: toggle_image_selection(idx, var))
+                checkbox.pack(pady=5)
+        return
+
+    # Clear the current image panel if filtering by wavelength
+    for widget in image_panel_frame.winfo_children():
+        widget.destroy()
+
+    # Display only the images that match the selected wavelength
+    for idx, (cube, _, wavelength, i, output_rgb_image) in enumerate(loaded_cubes):
+        if wavelength == selected_wavelength:
+            if os.path.exists(output_rgb_image):
+                img = Image.open(output_rgb_image)
+                img = img.resize((300, 200), Image.Resampling.LANCZOS)
+                img_tk = ImageTk.PhotoImage(img)
+
+                # Store the image to prevent garbage collection
+                loaded_images.append(img_tk)
+
+                # Create a frame for each image, its label, and checkbox
+                image_frame = tk.Frame(image_panel_frame)
+                image_frame.pack(side=tk.LEFT, padx=10, pady=10)
+
+                # Display the image in the frame
+                img_label = tk.Label(image_frame, image=img_tk)
+                img_label.pack()
+
+                # Create a variable to track the checkbox state
+                checkbox_var = tk.BooleanVar()
+
+                # Create a checkbox next to the image name and make it selectable
+                checkbox = tk.Checkbutton(image_frame, text=f'{wavelength}_{i}', variable=checkbox_var,
+                                          onvalue=True, offvalue=False,
+                                          command=lambda idx=idx, var=checkbox_var: toggle_image_selection(idx, var))
+                checkbox.pack(pady=5)
 
 # Function to sum the cubes from the selected images
 def sum_selected_cubes():
@@ -415,7 +596,7 @@ def sum_selected_cubes():
     rgb_bands = (29, 19, 9)  # Example of RGB bands
 
     for idx in selected_images:
-        cube_data, cube_metadata, wavelength, i = loaded_cubes[idx]
+        cube_data, cube_metadata, wavelength, i, _ = loaded_cubes[idx]
 
         logging.info(f"Summing cube for {wavelength}_{i}")
 
@@ -429,22 +610,56 @@ def sum_selected_cubes():
             combined_cube += cube_data
 
     if combined_cube is not None:
-        # Save the summed RGB image
-        output_rgb_image = os.path.join(saved_images_directory, 'summed_rgb_image.png')
-        spy.save_rgb(output_rgb_image, combined_cube, rgb_bands)
-        logging.info(f"Summed RGB image saved at: {output_rgb_image}")
+        # Save the summed RGB image temporarily
+        summed_rgb_image = os.path.join(saved_images_directory, 'summed_rgb_image.png')
+        spy.save_rgb(summed_rgb_image, combined_cube, rgb_bands)
+        logging.info(f"Summed RGB image saved at: {summed_rgb_image}")
 
-        # Show the combined image in a popup window
-        show_combined_image_popup(output_rgb_image)
+        # Show the combined image in a popup window and provide Save options
+        show_combined_image_popup(summed_rgb_image, combined_cube, first_hdr_metadata)
     else:
         messagebox.showerror("Error", "Could not sum the selected cubes.")
 
+def save_rgb(image_path):
+    # Ask the user to select a directory to save the RGB image
+    directory = filedialog.askdirectory()
+    if not directory:
+        return  # No directory selected
 
+    # Create the new file path
+    rgb_save_path = os.path.join(directory, "summed_rgb_image.png")
+
+    try:
+        shutil.copy(image_path, rgb_save_path)
+        messagebox.showinfo("Success", f"RGB image saved at: {rgb_save_path}")
+    except Exception as e:
+        logging.error(f"Failed to save RGB image: {e}")
+        messagebox.showerror("Error", f"Failed to save RGB image: {e}")
+
+
+# Function to save the summed hyperspectral cube
+def save_cube(summed_cube, metadata):
+    # Ask the user to select a directory to save the hyperspectral cube
+    directory = filedialog.askdirectory()
+    if not directory:
+        return  # No directory selected
+
+    hdr_save_path = os.path.join(directory, "summed_cube.hdr")
+    bin_save_path = os.path.join(directory, "summed_cube.bin")
+
+    try:
+        # Save the hyperspectral cube using spectral.io.envi
+        envi.save_image(hdr_save_path, summed_cube, metadata=metadata, force=True)
+        messagebox.showinfo("Success", f"Summed cube saved at: {hdr_save_path}")
+    except Exception as e:
+        logging.error(f"Failed to save hyperspectral cube: {e}")
+        messagebox.showerror("Error", f"Failed to save hyperspectral cube: {e}")
 # Function to show the summed RGB image in a popup window
-def show_combined_image_popup(image_path):
+def show_combined_image_popup(image_path, summed_cube, metadata):
     popup = tk.Toplevel(root)
     popup.title("Summed Cube - RGB Image")
 
+    # Load and display the RGB image in the popup window
     img = Image.open(image_path)
     img = img.resize((600, 400), Image.Resampling.LANCZOS)  # Resize for display
     img_tk = ImageTk.PhotoImage(img)
@@ -453,7 +668,15 @@ def show_combined_image_popup(image_path):
     img_label.image = img_tk  # Keep a reference to avoid garbage collection
     img_label.pack(pady=10)
 
-    popup.geometry("620x450")
+    # Save RGB button
+    save_rgb_button = tk.Button(popup, text="Save RGB", command=lambda: save_rgb(image_path))
+    save_rgb_button.pack(side=tk.LEFT, padx=10)
+
+    # Save Cube button
+    save_cube_button = tk.Button(popup, text="Save Cube", command=lambda: save_cube(summed_cube, metadata))
+    save_cube_button.pack(side=tk.LEFT, padx=10)
+
+    popup.geometry("620x500")
     popup.transient(root)
     popup.grab_set()
     root.wait_window(popup)
@@ -530,6 +753,19 @@ process_button.pack(pady=10)
 # -------------------------------------------
 # Processing Tab - New functionalities
 # -------------------------------------------
+
+# Filter Panel (Dropdown and Filter Button)
+filter_panel = tk.Frame(processing_frame)
+filter_panel.pack(pady=10, anchor='nw')
+
+# Wavelength filter dropdown
+tk.Label(filter_panel, text="Filter by Wavelength:").pack(side=tk.LEFT, padx=5)
+wavelength_filter = ttk.Combobox(filter_panel, state="readonly")
+wavelength_filter.pack(side=tk.LEFT, padx=5)
+
+# Filter button
+filter_button = tk.Button(filter_panel, text="Filter", command=filter_images)
+filter_button.pack(side=tk.LEFT, padx=10)
 
 load_folder_button = tk.Button(processing_frame, text="Load Folder", command=load_folder)
 load_folder_button.pack(pady=10, anchor='nw')
