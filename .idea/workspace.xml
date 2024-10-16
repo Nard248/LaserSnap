@@ -18,9 +18,7 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da31b6f3-3f52-4efd-9bf2-4d2b2a787252" name="Changes" comment="First Initial Version">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="da31b6f3-3f52-4efd-9bf2-4d2b2a787252" name="Changes" comment="First Initial Version" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,7 +116,7 @@
       <workItem from="1728984482432" duration="5271000" />
       <workItem from="1728996321430" duration="5580000" />
       <workItem from="1729062792172" duration="1252000" />
-      <workItem from="1729079099689" duration="839000" />
+      <workItem from="1729079099689" duration="1702000" />
     </task>
     <task id="LOCAL-00001" summary="First Initial Version">
       <option name="closed" value="true" />
